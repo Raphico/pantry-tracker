@@ -5,7 +5,11 @@ import { cn } from "@/lib/utils"
 import { ThemeProvider } from "./theme-provider"
 import { Header } from "./header"
 
-const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" })
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "Pantry Tracker",

@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  pantry-tracker-db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=raphico
+      - POSTGRES_PASSWORD=pantry
+      - POSTGRES_DB=pantry_tracker_db
+    volumes:
+      - pantry_tracker_data:/var/lib/postgresql/data
+
+volumes:
+  pantry_tracker_data:
