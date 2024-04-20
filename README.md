@@ -5,6 +5,9 @@ This project serves as a hands-on practice to explore and implement Clean Archit
 ## Credits
 
 - [](https://nextjs.org/blog/security-nextjs-server-components-actions)
+- [](https://github.com/vercel/next.js/tree/canary/examples/next-forms)
+- [](https://github.com/vercel/next.js/tree/canary/examples/with-redis)
+- [](https://youtube.be/wnxO4AT2N4o?si=8VKRsaHQBlfZC_i1)
 
 ## Running locally
 
