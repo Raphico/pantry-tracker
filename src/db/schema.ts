@@ -4,6 +4,9 @@ import {
   text,
   primaryKey,
   integer,
+  serial,
+  varchar,
+  boolean,
 } from "drizzle-orm/pg-core"
 import type { AdapterAccount } from "next-auth/adapters"
 
@@ -59,3 +62,15 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 )
+
+export const items = pgTable("item", {
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 50 }).notNull(),
+  quantity: integer("quantity").notNull().default(0),
+  runningLow: boolean("running_low").notNull().default(false),
+})
+
+export type Item = typeof items.$inferSelect
