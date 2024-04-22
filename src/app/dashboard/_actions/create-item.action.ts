@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth"
 import { createItem } from "@/data-access/items/create-item.persistence"
+import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
 const itemSchema = z.object({
@@ -70,6 +71,8 @@ export async function createItemAction(
       userId: session.user.id,
       ...input,
     })
+
+    revalidatePath("/dashboard")
 
     return {
       status: "success",

@@ -4,45 +4,16 @@ import { AddItemDialog } from "./add-item-dialog"
 import { ItemsTable } from "./items-table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { getItems } from "@/data-access/items/get-items.persistence"
 
-const items = [
-  {
-    id: 1,
-    name: "Apples",
-    quantity: 10,
-    runningLow: false,
-  },
-  {
-    id: 2,
-    name: "Eggs",
-    quantity: 5,
-    runningLow: true,
-  },
-  {
-    id: 3,
-    name: "Yam",
-    quantity: 2,
-    runningLow: false,
-  },
-  {
-    id: 4,
-    name: "Butter",
-    quantity: 1,
-    runningLow: true,
-  },
-  {
-    id: 5,
-    name: "Olive Oil",
-    quantity: 0,
-    runningLow: true,
-  },
-]
 export default async function DashboardPage() {
   const session = await auth()
 
   if (!session) {
     redirect("/api/auth/signin")
   }
+
+  const items = await getItems()
 
   const lowItems = items.filter((item) => item.runningLow)
   const outOfStocksItems = items.filter((item) => !item.quantity)
