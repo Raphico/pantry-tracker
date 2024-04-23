@@ -36,6 +36,8 @@ interface ItemTableProps {
 }
 
 export function ItemsTable({ items }: ItemTableProps) {
+  const [isPending, startTransition] = React.useTransition()
+
   const [deleteItemState, deleteItemFormAction] = useFormState(
     deleteItemAction,
     {

@@ -50,11 +50,6 @@ export async function createItemAction(
   prevState: CreateItemState,
   formData: FormData
 ): Promise<CreateItemState> {
-  const rawInput = {
-    name: formData.get("name") as string,
-    quantity: formData.get("quantity") as string,
-  }
-
   try {
     const session = await auth()
 
@@ -63,8 +58,8 @@ export async function createItemAction(
     }
 
     const input = itemSchema.parse({
-      name: rawInput.name,
-      quantity: parseInt(rawInput.quantity),
+      name: formData.get("name") as string,
+      quantity: parseInt(formData.get("quantity") as string),
     })
 
     await createItem({
