@@ -1,5 +1,8 @@
 "use client"
 
+import * as React from "react"
+import { useFormState } from "react-dom"
+
 import { ItemDTO } from "@/data-access/items/types"
 import {
   flexRender,
@@ -25,63 +28,84 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { EllipsisIcon, MinusIcon, PlusIcon } from "lucide-react"
+import { deleteItemAction } from "./_actions/delete-item.action"
+import { toast } from "sonner"
 
 interface ItemTableProps {
   items: ItemDTO[]
 }
 
 export function ItemsTable({ items }: ItemTableProps) {
-  const columns: ColumnDef<ItemDTO>[] = [
+  const [deleteItemState, deleteItemFormAction] = useFormState(
+    deleteItemAction,
     {
-      accessorKey: "name",
-      header: "Name",
-    },
-    {
-      accessorKey: "quantity",
-      header: "Quantity",
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center gap-2">
-            <button
-              className="disabled:text-gray-600"
-              disabled={row.original.quantity === 0}
-            >
-              <MinusIcon className="size-4" />
-            </button>
-            {row.original.quantity}
-            <button>
-              <PlusIcon className="size-4" />
-            </button>
-          </div>
-        )
-      },
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => {
-        const item = row.original
+      message: "",
+    }
+  )
 
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="size-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <EllipsisIcon className="size-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Mark as Low</DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive hover:text-destructive-foreground">
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )
+  React.useEffect(() => {
+    if (deleteItemState.message) toast.message(deleteItemState.message)
+  }, [deleteItemState])
+
+  const columns: ColumnDef<ItemDTO>[] = React.useMemo(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Name",
       },
-    },
-  ]
+      {
+        accessorKey: "quantity",
+        header: "Quantity",
+        cell: ({ row }) => {
+          return (
+            <div className="flex items-center gap-2">
+              <button
+                className="disabled:text-gray-600"
+                disabled={row.original.quantity === 0}
+              >
+                <MinusIcon className="size-4" />
+              </button>
+              {row.original.quantity}
+              <button>
+                <PlusIcon className="size-4" />
+              </button>
+            </div>
+          )
+        },
+      },
+      {
+        id: "actions",
+        cell: ({ row }) => {
+          const item = row.original
+
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="size-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <EllipsisIcon className="size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Mark as Low</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <form action={deleteItemFormAction}>
+                    <input value={item.id} type="hidden" name="itemId" />
+                    <button className="flex w-full items-start text-destructive/90">
+                      Delete
+                    </button>
+                  </form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )
+        },
+      },
+    ],
+    [deleteItemFormAction]
+  )
 
   const table = useReactTable({
     data: items,
