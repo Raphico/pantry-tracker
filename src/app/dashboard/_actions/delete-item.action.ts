@@ -4,14 +4,14 @@ import { auth } from "@/auth"
 import { deleteItem } from "@/data-access/items/delete-item.persistence"
 import { revalidatePath } from "next/cache"
 
-type DeleteItemFormState = {
+type DeleteItemState = {
   message: string
 }
 
 export async function deleteItemAction(
-  prevState: DeleteItemFormState,
+  prevState: DeleteItemState,
   formData: FormData
-): Promise<DeleteItemFormState> {
+): Promise<DeleteItemState> {
   try {
     const session = await auth()
 

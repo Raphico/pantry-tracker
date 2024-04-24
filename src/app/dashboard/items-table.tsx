@@ -30,16 +30,22 @@ import { Button } from "@/components/ui/button"
 import { EllipsisIcon, MinusIcon, PlusIcon } from "lucide-react"
 import { deleteItemAction } from "./_actions/delete-item.action"
 import { toast } from "sonner"
+import { updateRunningLowAction } from "./_actions/update-running-low"
 
 interface ItemTableProps {
   items: ItemDTO[]
 }
 
 export function ItemsTable({ items }: ItemTableProps) {
-  const [isPending, startTransition] = React.useTransition()
-
   const [deleteItemState, deleteItemFormAction] = useFormState(
     deleteItemAction,
+    {
+      message: "",
+    }
+  )
+
+  const [updateRunningLowState, updateRunningLowFormAction] = useFormState(
+    updateRunningLowAction,
     {
       message: "",
     }
@@ -48,6 +54,11 @@ export function ItemsTable({ items }: ItemTableProps) {
   React.useEffect(() => {
     if (deleteItemState.message) toast.message(deleteItemState.message)
   }, [deleteItemState])
+
+  React.useEffect(() => {
+    if (updateRunningLowState.message)
+      toast.message(updateRunningLowState.message)
+  }, [updateRunningLowState])
 
   const columns: ColumnDef<ItemDTO>[] = React.useMemo(
     () => [
@@ -91,7 +102,14 @@ export function ItemsTable({ items }: ItemTableProps) {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Mark as Low</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <form action={updateRunningLowFormAction}>
+                    <input value={item.id} type="hidden" name="itemId" />
+                    <button className="flex w-full items-start">
+                      {item.runningLow ? "Unmark as Low" : "Mark as low"}
+                    </button>
+                  </form>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <form action={deleteItemFormAction}>
                     <input value={item.id} type="hidden" name="itemId" />
@@ -106,7 +124,7 @@ export function ItemsTable({ items }: ItemTableProps) {
         },
       },
     ],
-    [deleteItemFormAction]
+    [deleteItemFormAction, updateRunningLowFormAction]
   )
 
   const table = useReactTable({
