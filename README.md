@@ -1,13 +1,12 @@
 ## Project Purpose
 
-This project serves as a hands-on practice to explore and implement Clean Architecture principles within a Next.js environment. The aim is to achieve separate of concerns between data access layer, the part of the application that interacts with database, and the user interface layer. The result is communicated to the user interface layer with DTOs. This approach ensures consistent data access, maintainability, and scalability of the application. Additionally, this project provides an opportunity to work with advanced features in Next.js, such as forms and optimistic updates, using server actions.
+This project is a hands-on practice to explore and implement Clean Architecture principles within a Next.js environment. The aim is to achieve separate concerns between the application's data access, business, and user interface layers. The application consists of a "data-access" which encapsulates the data access layer responsible for interacting with the database, "use-cases" which encapsulates the business logic and rules each use case implements specific business rules and workflows, and "actions" which encapsulates the handles the interaction with the application, particularly on the server-side in Next.js. This approach ensures consistent data access, maintainability, and scalability of the application. Additionally, this project provides an opportunity to work with advanced features in Next.js, such as forms and optimistic updates, using server actions.
 
 ## Credits
 
 - [](https://nextjs.org/blog/security-nextjs-server-components-actions)
 - [](https://github.com/vercel/next.js/tree/canary/examples/next-forms)
-- [](https://github.com/vercel/next.js/tree/canary/examples/with-redis)
-- [](https://youtube.be/wnxO4AT2N4o?si=8VKRsaHQBlfZC_i1)
+- [](https://github.com/webdevcody/ppai-next-starter)
 
 ## Running locally
 
