@@ -1,8 +1,6 @@
 "use server"
 
-import { auth } from "@/auth"
-import { getItem } from "@/data-access/items/get-item.persistence"
-import { updateItem } from "@/data-access/items/update-item.persistence"
+import { updateItemRunningLowUseCase } from "@/use-cases/items"
 import { revalidatePath } from "next/cache"
 
 type UpdateRunningLowState = {
@@ -14,20 +12,9 @@ export async function updateRunningLowAction(
   formData: FormData
 ): Promise<UpdateRunningLowState> {
   try {
-    const session = await auth()
-
-    if (!session?.user?.id) {
-      throw new Error("You are not authenticated to perform this action")
-    }
-
     const itemId = parseInt(formData.get("itemId") as string)
 
-    const item = await getItem(itemId)
-
-    await updateItem({
-      ...item,
-      runningLow: !item.runningLow,
-    })
+    await updateItemRunningLowUseCase(itemId)
 
     revalidatePath("/dashboard")
 

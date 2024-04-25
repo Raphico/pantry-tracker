@@ -1,7 +1,6 @@
 "use server"
 
-import { auth } from "@/auth"
-import { createItem } from "@/data-access/items/create-item.persistence"
+import { createItemUseCase } from "@/use-cases/items"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
@@ -51,21 +50,12 @@ export async function createItemAction(
   formData: FormData
 ): Promise<CreateItemState> {
   try {
-    const session = await auth()
-
-    if (!session?.user?.id) {
-      throw new Error("You need to be authenticated to create an item")
-    }
-
     const input = itemSchema.parse({
       name: formData.get("name") as string,
       quantity: parseInt(formData.get("quantity") as string),
     })
 
-    await createItem({
-      userId: session.user.id,
-      ...input,
-    })
+    await createItemUseCase(input)
 
     revalidatePath("/dashboard")
 

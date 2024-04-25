@@ -1,7 +1,6 @@
 "use server"
 
-import { auth } from "@/auth"
-import { deleteItem } from "@/data-access/items/delete-item.persistence"
+import { deleteItemUseCase } from "@/use-cases/items"
 import { revalidatePath } from "next/cache"
 
 type DeleteItemState = {
@@ -13,15 +12,9 @@ export async function deleteItemAction(
   formData: FormData
 ): Promise<DeleteItemState> {
   try {
-    const session = await auth()
-
-    if (!session?.user?.id) {
-      throw new Error("You are not authenticated to perform this action")
-    }
-
     const itemId = parseInt(formData.get("itemId") as string)
 
-    await deleteItem(itemId)
+    await deleteItemUseCase(itemId)
 
     revalidatePath("/dashboard")
 

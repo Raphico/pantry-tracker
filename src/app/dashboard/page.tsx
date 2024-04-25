@@ -4,7 +4,7 @@ import { AddItemDialog } from "./add-item-dialog"
 import { ItemsTable } from "./items-table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { getItems } from "@/data-access/items/get-items.persistence"
+import { getItemsUseCase } from "@/use-cases/items"
 
 export default async function DashboardPage() {
   const session = await auth()
@@ -13,7 +13,7 @@ export default async function DashboardPage() {
     redirect("/api/auth/signin")
   }
 
-  const items = await getItems()
+  const items = await getItemsUseCase()
 
   const lowItems = items.filter((item) => item.runningLow)
   const outOfStocksItems = items.filter((item) => !item.quantity)
