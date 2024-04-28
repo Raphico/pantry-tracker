@@ -4,9 +4,9 @@ This project is a hands-on practice to explore and implement Clean Architecture 
 
 ## Credits
 
-- [](https://nextjs.org/blog/security-nextjs-server-components-actions)
-- [](https://github.com/vercel/next.js/tree/canary/examples/next-forms)
-- [](https://github.com/webdevcody/ppai-next-starter)
+- [Nextjs blog on security in server components actions](https://nextjs.org/blog/security-nextjs-server-components-actions)
+- [Next forms example](https://github.com/vercel/next.js/tree/canary/examples/next-forms)
+- [Cody's Next starter](https://github.com/webdevcody/ppai-next-starter)
 
 ## Running locally
 
