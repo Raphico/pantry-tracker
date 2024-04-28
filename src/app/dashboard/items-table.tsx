@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import { useFormState } from "react-dom"
+import type { Item } from "@/db/schema"
 
-import { ItemDTO } from "@/data-access/items/types"
 import {
   flexRender,
   getCoreRowModel,
@@ -33,7 +33,7 @@ import { toast } from "sonner"
 import { updateRunningLowAction } from "./_actions/update-running-low"
 
 interface ItemTableProps {
-  items: ItemDTO[]
+  items: Item[]
 }
 
 export function ItemsTable({ items }: ItemTableProps) {
